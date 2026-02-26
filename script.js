@@ -1,30 +1,24 @@
-// Mobile Menu
+// Mobile menu
 function toggleMenu(){
     document.querySelector(".nav-links").classList.toggle("active");
 }
 
-// Flip Cards
-document.querySelectorAll(".flip-card").forEach(card => {
-    card.addEventListener("click", () => {
-        card.classList.toggle("active");
+// Fade-in animation
+const faders = document.querySelectorAll('.fade-in');
+
+const appearOnScroll = new IntersectionObserver((entries, observer)=>{
+    entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        entry.target.classList.add("show");
+        observer.unobserve(entry.target);
     });
-});
+},{ threshold:0.2 });
 
-// Page Transition
-document.addEventListener("DOMContentLoaded", function(){
-    document.body.classList.add("page");
+faders.forEach(fader=> appearOnScroll.observe(fader));
 
-    document.querySelectorAll("a").forEach(link => {
-        if(link.hostname === window.location.hostname){
-            link.addEventListener("click", function(e){
-                if(link.getAttribute("href").includes("#")) return;
-
-                e.preventDefault();
-                document.body.style.opacity = 0;
-                setTimeout(() => {
-                    window.location = link.href;
-                }, 400);
-            });
-        }
+// Flip cards
+document.querySelectorAll(".flip-card").forEach(card=>{
+    card.addEventListener("click", ()=>{
+        card.classList.toggle("active");
     });
 });

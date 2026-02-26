@@ -3,341 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Name | Personal Website</title>
-
-<!-- Google Font -->
+<title>Home</title>
+<link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
-    --primary:#4f46e5;
-    --secondary:#6366f1;
-    --dark:#111827;
-    --light:#f9fafb;
-    --gray:#6b7280;
-}
-
-/* RESET */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:'Inter',sans-serif;
-    background:var(--light);
-    color:var(--dark);
-    line-height:1.6;
-}
-
-/* NAVIGATION */
-nav{
-    position:fixed;
-    width:100%;
-    background:white;
-    box-shadow:0 2px 10px rgba(0,0,0,0.05);
-    z-index:1000;
-}
-
-.nav-container{
-    max-width:1200px;
-    margin:auto;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1rem;
-}
-
-.logo{
-    font-weight:700;
-    font-size:1.2rem;
-    color:var(--primary);
-}
-
-.nav-links{
-    display:flex;
-    gap:1.5rem;
-}
-
-.nav-links a{
-    text-decoration:none;
-    color:var(--dark);
-    font-weight:500;
-    transition:0.3s;
-}
-
-.nav-links a:hover{
-    color:var(--primary);
-}
-
-/* MOBILE MENU */
-.menu-toggle{
-    display:none;
-    font-size:1.5rem;
-    cursor:pointer;
-}
-
-/* HERO */
-.hero{
-    height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    background:linear-gradient(to right,var(--primary),var(--secondary));
-    color:white;
-    padding:2rem;
-}
-
-.hero h1{
-    font-size:3rem;
-    margin-bottom:1rem;
-}
-
-.hero p{
-    font-size:1.2rem;
-    max-width:600px;
-    margin:auto;
-}
-
-/* SECTION */
-section{
-    max-width:1200px;
-    margin:100px auto;
-    padding:2rem;
-}
-
-.section-title{
-    font-size:2rem;
-    margin-bottom:1.5rem;
-    color:var(--primary);
-}
-
-/* GRID */
-.grid-3{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:2rem;
-}
-
-.grid-2{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:2rem;
-}
-
-/* CARDS */
-.card{
-    background:white;
-    padding:1.5rem;
-    border-radius:12px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.05);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-}
-
-/* TAGS */
-.tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:0.8rem;
-}
-
-.tag{
-    background:var(--primary);
-    color:white;
-    padding:0.5rem 1rem;
-    border-radius:20px;
-    font-size:0.85rem;
-}
-
-/* FOOTER */
-footer{
-    text-align:center;
-    padding:2rem;
-    background:var(--dark);
-    color:white;
-}
-
-/* SCROLL ANIMATION */
-.fade-in{
-    opacity:0;
-    transform:translateY(40px);
-    transition:1s ease;
-}
-
-.fade-in.show{
-    opacity:1;
-    transform:translateY(0);
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-    .grid-3{
-        grid-template-columns:1fr;
-    }
-    .grid-2{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:768px){
-    .nav-links{
-        position:absolute;
-        top:70px;
-        right:0;
-        background:white;
-        flex-direction:column;
-        width:200px;
-        padding:1rem;
-        display:none;
-        box-shadow:0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .nav-links.active{
-        display:flex;
-    }
-
-    .menu-toggle{
-        display:block;
-    }
-}
-</style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav>
-    <div class="nav-container">
-        <div class="logo">YourLogo</div>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-        <div class="nav-links" id="navLinks">
-            <a href="#about">About</a>
-            <a href="#development">Development</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
-        </div>
+  <div class="nav-container">
+    <div class="logo">YourLogo</div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
     </div>
+  </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
     <div>
         <h1>Welcome!</h1>
-        <p>Welcome to my website. Explore my academic background, professional development, projects and interests.</p>
+        <p>Welcome to my website.</p>
     </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about" class="fade-in">
-    <h2 class="section-title">About the Author</h2>
-    <div class="grid-2">
-        <div class="card">
-            <h3>Education</h3>
-            <p>Bachelor's in XYZ<br>University Name<br>Graduation Year</p>
-        </div>
-        <div class="card">
-            <h3>Short Bio</h3>
-            <p>Brief explanation about yourself, your goals, your passion, and what visitors can expect.</p>
-        </div>
-    </div>
+<section>
+<h2 class="section-title">Experience & Interests</h2>
+
+<div class="grid-3">
+
+<div class="flip-card">
+<div class="flip-inner">
+<div class="flip-front">
+<h3>Professional Development</h3>
+</div>
+<div class="flip-back">
+<p>Detailed certifications, internships, workshops, leadership experience.</p>
+</div>
+</div>
+</div>
+
+<div class="flip-card">
+<div class="flip-inner">
+<div class="flip-front">
+<h3>Academic Experience</h3>
+</div>
+<div class="flip-back">
+<p>Research projects, coursework highlights, thesis summary.</p>
+</div>
+</div>
+</div>
+
+<div class="flip-card">
+<div class="flip-inner">
+<div class="flip-front">
+<h3>Personal Interests</h3>
+</div>
+<div class="flip-back">
+<p>Hobbies, travel, creative work, volunteering.</p>
+</div>
+</div>
+</div>
+
+</div>
 </section>
 
-<!-- PROFESSIONAL / ACADEMIC / PERSONAL -->
-<section id="development" class="fade-in">
-    <h2 class="section-title">Experience & Interests</h2>
-    <div class="grid-3">
-        <div class="card">
-            <h3>Professional Development</h3>
-            <p>Certifications, internships, workshops, leadership roles.</p>
-        </div>
-        <div class="card">
-            <h3>Academic Experience</h3>
-            <p>Research, coursework, thesis, academic awards.</p>
-        </div>
-        <div class="card">
-            <h3>Personal Interests</h3>
-            <p>Hobbies, creative interests, volunteering, sports.</p>
-        </div>
-    </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects" class="fade-in">
-    <h2 class="section-title">Main Projects</h2>
-    <div class="grid-2">
-        <div class="card">
-            <h3>Project 1</h3>
-            <p>Description of project and link to GitHub or live demo.</p>
-        </div>
-        <div class="card">
-            <h3>Project 2</h3>
-            <p>Description of project and impact.</p>
-        </div>
-    </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills" class="fade-in">
-    <h2 class="section-title">Main Skills</h2>
-    <div class="tags">
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">Python</span>
-        <span class="tag">React</span>
-        <span class="tag">Data Analysis</span>
-    </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" class="fade-in">
-    <h2 class="section-title">Get in Touch</h2>
-    <div class="card">
-        <p>Email: your@email.com</p>
-        <p>LinkedIn: linkedin.com/in/yourprofile</p>
-    </div>
-</section>
-
-<footer>
-    © 2026 Your Name | All Rights Reserved
-</footer>
-
-<script>
-/* MOBILE MENU */
-function toggleMenu(){
-    document.getElementById("navLinks").classList.toggle("active");
-}
-
-/* SCROLL ANIMATION */
-const faders = document.querySelectorAll('.fade-in');
-
-const appearOptions = {
-    threshold: 0.2
-};
-
-const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll){
-    entries.forEach(entry => {
-        if(!entry.isIntersecting){
-            return;
-        } else {
-            entry.target.classList.add("show");
-            appearOnScroll.unobserve(entry.target);
-        }
-    });
-}, appearOptions);
-
-faders.forEach(fader => {
-    appearOnScroll.observe(fader);
-});
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>

@@ -143,38 +143,6 @@
     </div>
 </section>
 
-<!-- CLOUD EXPANSION -->
-<section class="fade-in">
-    <h2 class="section-title">Cloud Expansion (PostgreSQL + API)</h2>
-    <div class="card">
-        <h3>Step 1: Set Up Free Cloud Database (Supabase)</h3>
-        <p>Create a free account and project at Supabase.io (PostgreSQL backend).</p>
-
-        <h3>Step 2: Create Table</h3>
-<pre><code>create table transactions (
- id serial primary key,
- date text,
- amount numeric,
- category text
-);</code></pre>
-
-        <h3>Step 3: Upload Data</h3>
-        <p>Use Supabase table editor or CSV upload.</p>
-
-        <h3>Step 4: API Access</h3>
-<pre><code>fetch('https://YOUR_PROJECT.supabase.co/rest/v1/transactions', {
- headers: {
-   apikey: 'YOUR_API_KEY'
- }
-})
-.then(res => res.json())
-.then(data => console.log(data));</code></pre>
-
-        <h3>Step 5: Connect to Dashboard</h3>
-        <p>Replace local CSV with API call for real-time cloud data.</p>
-    </div>
-</section>
-
 <!-- STEP BY STEP -->
 <section class="fade-in">
     <h2 class="section-title">Step-by-Step Implementation</h2>
@@ -219,6 +187,38 @@ result = pd.read_sql(query, conn)</code></pre>
     </div>
 </section>
 
+<!-- CLOUD EXPANSION -->
+<section class="fade-in">
+    <h2 class="section-title">Cloud Expansion (PostgreSQL + API)</h2>
+    <div class="card">
+        <h3>Step 1: Set Up Free Cloud Database (Supabase)</h3>
+        <p>Create a free account and project at Supabase.io (PostgreSQL backend).</p>
+
+        <h3>Step 2: Create Table</h3>
+<pre><code>create table transactions (
+ id serial primary key,
+ date text,
+ amount numeric,
+ category text
+);</code></pre>
+
+        <h3>Step 3: Upload Data</h3>
+        <p>Use Supabase table editor or CSV upload.</p>
+
+        <h3>Step 4: API Access</h3>
+<pre><code>fetch('https://YOUR_PROJECT.supabase.co/rest/v1/transactions', {
+ headers: {
+   apikey: 'YOUR_API_KEY'
+ }
+})
+.then(res => res.json())
+.then(data => console.log(data));</code></pre>
+
+        <h3>Step 5: Connect to Dashboard</h3>
+        <p>Replace local CSV with API call for real-time cloud data.</p>
+    </div>
+</section>
+
 <!-- FEATURES -->
 <section class="fade-in">
     <h2 class="section-title">Key Features</h2>
@@ -250,38 +250,27 @@ result = pd.read_sql(query, conn)</code></pre>
 <script>
 let chart;
 
-async function loadData() {
-    const response = await fetch('data.csv');
-    const text = await response.text();
+const data = [
+    { date: '2024-01-01', amount: 500, category: 'Revenue' },
+    { date: '2024-01-02', amount: 200, category: 'Expenses' },
+    { date: '2024-01-03', amount: 300, category: 'Operations' },
+    { date: '2024-01-04', amount: 150, category: 'Expenses' },
+    { date: '2024-01-05', amount: 700, category: 'Revenue' }
+];
 
-    const rows = text.split('\n').slice(1);
-    const data = rows.map(r => {
-        const [date, amount, category] = r.split(',');
-        return { date, amount: +amount, category };
-    });
+const categories = [...new Set(data.map(d => d.category))];
+const filter = document.getElementById('categoryFilter');
 
-    const categories = [...new Set(data.map(d => d.category))];
-    const filter = document.getElementById('categoryFilter');
+categories.forEach(c => {
+    const option = document.createElement('option');
+    option.value = c;
+    option.textContent = c;
+    filter.appendChild(option);
+});
 
-    categories.forEach(c => {
-        const option = document.createElement('option');
-        option.value = c;
-        option.textContent = c;
-        filter.appendChild(option);
-    });
-
-    renderChart(data);
-    filter.addEventListener('change', () => {
-        const selected = filter.value;
-        const filtered = selected === 'all' ? data : data.filter(d => d.category === selected);
-        renderChart(filtered);
-    });
-}
-
-function renderChart(data) {
+function renderChart(filteredData) {
     const grouped = {};
-
-    data.forEach(d => {
+    filteredData.forEach(d => {
         grouped[d.category] = (grouped[d.category] || 0) + d.amount;
     });
 
@@ -289,19 +278,24 @@ function renderChart(data) {
     const values = Object.values(grouped);
 
     if (chart) chart.destroy();
-
     const ctx = document.getElementById('financeChart');
 
     chart = new Chart(ctx, {
         type: 'bar',
-        data: {
-            labels,
-            datasets: [{ label: 'Amount', data: values }]
-        }
+        data: { labels, datasets: [{ label: 'Amount ($)', data: values, backgroundColor: 'rgba(54, 162, 235, 0.6)' }] },
+        options: { responsive: true, plugins: { legend: { display: false } } }
     });
 }
 
-loadData();
+// Initial render
+renderChart(data);
+
+// Filter listener
+filter.addEventListener('change', () => {
+    const selected = filter.value;
+    const filtered = selected === 'all' ? data : data.filter(d => d.category === selected);
+    renderChart(filtered);
+});
 </script>
 
 <script src="script.js"></script>

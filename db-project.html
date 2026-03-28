@@ -30,6 +30,93 @@
     </div>
 </section>
 
+<section class="fade-in">
+    <h2 class="section-title">Live Dashboard (Demo Data)</h2>
+    <div class="card">
+        <label for="categoryFilter">Filter by Category:</label>
+        <select id="categoryFilter">
+            <option value="all">All</option>
+        </select>
+        <canvas id="financeChart" width="400" height="200"></canvas>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Hardcoded demo data
+    const data = [
+        { date: '2024-01-01', amount: 500, category: 'Revenue' },
+        { date: '2024-01-02', amount: 200, category: 'Expenses' },
+        { date: '2024-01-03', amount: 300, category: 'Operations' },
+        { date: '2024-01-04', amount: 150, category: 'Expenses' },
+        { date: '2024-01-05', amount: 700, category: 'Revenue' },
+        { date: '2024-01-06', amount: 100, category: 'Misc' },
+        { date: '2024-01-07', amount: 400, category: 'Operations' }
+    ];
+
+    const filter = document.getElementById('categoryFilter');
+
+    // Populate dropdown with categories dynamically
+    const categories = [...new Set(data.map(d => d.category))];
+    categories.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c;
+        option.textContent = c;
+        filter.appendChild(option);
+    });
+
+    let chart;
+
+    // Function to render chart based on filtered data
+    function renderChart(filteredData) {
+        const grouped = {};
+        filteredData.forEach(d => {
+            grouped[d.category] = (grouped[d.category] || 0) + d.amount;
+        });
+
+        const labels = Object.keys(grouped);
+        const values = Object.values(grouped);
+
+        if (chart) chart.destroy();
+
+        const ctx = document.getElementById('financeChart').getContext('2d');
+        chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Amount ($)',
+                    data: values,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+
+    // Initial render
+    renderChart(data);
+
+    // Add event listener for filter
+    filter.addEventListener('change', () => {
+        const selected = filter.value;
+        const filtered = selected === 'all' ? data : data.filter(d => d.category === selected);
+        renderChart(filtered);
+    });
+</script>
+
 <!-- CENTRALIZED DATABASE -->
 <section class="fade-in">
     <h2 class="section-title">Centralized Database Design</h2>
@@ -110,20 +197,6 @@
             <li><strong>Visualization:</strong> Excel / Google Sheets</li>
             <li><strong>Hosting:</strong> GitHub Pages</li>
         </ul>
-    </div>
-</section>
-
-  <!-- REAL DATA DASHBOARD -->
-<section class="fade-in">
-    <h2 class="section-title">Live Dashboard (Real Data)</h2>
-
-    <div class="card">
-        <label>Filter by Category:</label>
-        <select id="categoryFilter">
-            <option value="all">All</option>
-        </select>
-
-        <canvas id="financeChart"></canvas>
     </div>
 </section>
 
@@ -246,57 +319,6 @@ result = pd.read_sql(query, conn)</code></pre>
 <footer>
     © 2026 Your Name | All Rights Reserved
 </footer>
-
-<script>
-let chart;
-
-const data = [
-    { date: '2024-01-01', amount: 500, category: 'Revenue' },
-    { date: '2024-01-02', amount: 200, category: 'Expenses' },
-    { date: '2024-01-03', amount: 300, category: 'Operations' },
-    { date: '2024-01-04', amount: 150, category: 'Expenses' },
-    { date: '2024-01-05', amount: 700, category: 'Revenue' }
-];
-
-const categories = [...new Set(data.map(d => d.category))];
-const filter = document.getElementById('categoryFilter');
-
-categories.forEach(c => {
-    const option = document.createElement('option');
-    option.value = c;
-    option.textContent = c;
-    filter.appendChild(option);
-});
-
-function renderChart(filteredData) {
-    const grouped = {};
-    filteredData.forEach(d => {
-        grouped[d.category] = (grouped[d.category] || 0) + d.amount;
-    });
-
-    const labels = Object.keys(grouped);
-    const values = Object.values(grouped);
-
-    if (chart) chart.destroy();
-    const ctx = document.getElementById('financeChart');
-
-    chart = new Chart(ctx, {
-        type: 'bar',
-        data: { labels, datasets: [{ label: 'Amount ($)', data: values, backgroundColor: 'rgba(54, 162, 235, 0.6)' }] },
-        options: { responsive: true, plugins: { legend: { display: false } } }
-    });
-}
-
-// Initial render
-renderChart(data);
-
-// Filter listener
-filter.addEventListener('change', () => {
-    const selected = filter.value;
-    const filtered = selected === 'all' ? data : data.filter(d => d.category === selected);
-    renderChart(filtered);
-});
-</script>
 
 <script src="script.js"></script>
 </body>

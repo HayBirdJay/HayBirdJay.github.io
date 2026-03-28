@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database & Systems Integration Project</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<nav>
+  <div class="nav-container">
+    <div class="logo">YourLogo</div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="db-project.html">Database Project</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+    <div>
+        <h1>Database & Systems Integration Project</h1>
+        <p>Building a centralized, automated, and scalable data system using free tools.</p>
+    </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="fade-in">
+    <h2 class="section-title">Project Overview</h2>
+    <div class="card">
+        <p>
+        This project focused on designing and implementing a centralized data system to eliminate redundant data sources,
+        improve reporting accuracy, and create a "single source of truth." The system integrates financial-style datasets
+        and automates data processing using accessible, free technologies.
+        </p>
+    </div>
+</section>
+
+<!-- PURPOSE -->
+<section class="fade-in">
+    <h2 class="section-title">Purpose & Goals</h2>
+    <div class="grid-3">
+        <div class="card">
+            <h3>Data Centralization</h3>
+            <p>Eliminate duplicate datasets and create a unified data structure.</p>
+        </div>
+        <div class="card">
+            <h3>Automation</h3>
+            <p>Reduce manual data entry using automated pipelines.</p>
+        </div>
+        <div class="card">
+            <h3>Reporting</h3>
+            <p>Enable accurate, real-time reporting and analytics.</p>
+        </div>
+    </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="fade-in">
+    <h2 class="section-title">Technology Stack (Free Tools)</h2>
+    <div class="card">
+        <ul>
+            <li><strong>Database:</strong> SQLite (local) or PostgreSQL (via Supabase)</li>
+            <li><strong>Data Processing:</strong> Python (Pandas)</li>
+            <li><strong>Frontend:</strong> HTML/CSS</li>
+            <li><strong>Visualization:</strong> Excel / Google Sheets</li>
+            <li><strong>Hosting:</strong> GitHub Pages</li>
+        </ul>
+    </div>
+</section>
+
+<!-- SYSTEM DESIGN -->
+<section class="fade-in">
+    <h2 class="section-title">System Architecture</h2>
+    <div class="card">
+        <p>
+        The system follows a simple ETL (Extract, Transform, Load) pipeline:
+        </p>
+        <ul>
+            <li>Extract data from CSV files</li>
+            <li>Transform and clean using Python</li>
+            <li>Load into a centralized relational database</li>
+            <li>Query data for reporting and dashboards</li>
+        </ul>
+    </div>
+</section>
+
+<!-- STEP BY STEP -->
+<section class="fade-in">
+    <h2 class="section-title">Step-by-Step Implementation</h2>
+
+    <div class="card">
+        <h3>Step 1: Set Up Environment</h3>
+        <p>Install Python and required libraries:</p>
+        <pre><code>pip install pandas sqlite3</code></pre>
+    </div>
+
+    <div class="card">
+        <h3>Step 2: Prepare Data</h3>
+        <p>Collect raw CSV files (transactions, invoices, etc.) and standardize column names.</p>
+    </div>
+
+    <div class="card">
+        <h3>Step 3: Data Cleaning (Python)</h3>
+<pre><code>import pandas as pd
+
+df = pd.read_csv("data.csv")
+df.dropna(inplace=True)
+df["amount"] = df["amount"].astype(float)</code></pre>
+    </div>
+
+    <div class="card">
+        <h3>Step 4: Create Database</h3>
+<pre><code>import sqlite3
+
+conn = sqlite3.connect("database.db")
+df.to_sql("transactions", conn, if_exists="replace")</code></pre>
+    </div>
+
+    <div class="card">
+        <h3>Step 5: Query Data</h3>
+<pre><code>query = "SELECT category, SUM(amount) FROM transactions GROUP BY category"
+result = pd.read_sql(query, conn)</code></pre>
+    </div>
+
+    <div class="card">
+        <h3>Step 6: Reporting</h3>
+        <p>Export results to Excel or visualize using dashboards.</p>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="fade-in">
+    <h2 class="section-title">Key Features</h2>
+    <div class="grid-2">
+        <div class="card">
+            <h3>Automated Data Processing</h3>
+            <p>Reduces manual entry and improves efficiency.</p>
+        </div>
+        <div class="card">
+            <h3>Centralized Database</h3>
+            <p>Creates a single source of truth for reporting.</p>
+        </div>
+        <div class="card">
+            <h3>Scalable Design</h3>
+            <p>System can expand to include APIs and cloud storage.</p>
+        </div>
+        <div class="card">
+            <h3>Data Governance</h3>
+            <p>Improves data consistency, structure, and reliability.</p>
+        </div>
+    </div>
+</section>
+
+<!-- RESULTS -->
+<section class="fade-in">
+    <h2 class="section-title">Results & Impact</h2>
+    <div class="card">
+        <ul>
+            <li>Reduced manual data processing time</li>
+            <li>Improved reporting accuracy</li>
+            <li>Eliminated redundant datasets</li>
+            <li>Enabled faster decision-making</li>
+        </ul>
+    </div>
+</section>
+
+<footer>
+    © 2026 Your Name | All Rights Reserved
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

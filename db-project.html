@@ -30,17 +30,32 @@
     </div>
 </section>
 
-<!-- OVERVIEW -->
+<!-- CENTRALIZED DATABASE -->
 <section class="fade-in">
-    <h2 class="section-title">Project Overview</h2>
+    <h2 class="section-title">Centralized Database Design</h2>
     <div class="card">
         <p>
-        This project focused on designing and implementing a centralized data system to eliminate redundant data sources,
-        improve reporting accuracy, and create a "single source of truth." The system integrates financial-style datasets
-        and automates data processing using accessible, free technologies.
+        Designed a relational database to consolidate financial datasets (transactions, vendors, accounts)
+        into a single source of truth. Focused on eliminating redundancy, improving reporting accuracy,
+        and enabling scalable integrations.
         </p>
+
+        <h3>Schema</h3>
+        <ul>
+            <li>transactions (id, date, amount, category, account_id)</li>
+            <li>accounts (account_id, account_name)</li>
+            <li>vendors (vendor_id, vendor_name)</li>
+        </ul>
+
+        <h3>Key Concepts</h3>
+        <ul>
+            <li>Normalization (removes duplicate data)</li>
+            <li>Primary/Foreign Keys (data integrity)</li>
+            <li>Standardized formats (consistent reporting)</li>
+        </ul>
     </div>
 </section>
+
 
 <!-- PURPOSE -->
 <section class="fade-in">
@@ -61,6 +76,29 @@
     </div>
 </section>
 
+  <!-- BUSINESS IMPACT -->
+<section class="fade-in">
+    <h2 class="section-title">Business Impact (Accounting Focus)</h2>
+    <div class="grid-2">
+        <div class="card">
+            <h3>Accounts Payable / Receivable Efficiency</h3>
+            <p>Automated data processing reduces manual invoice entry and improves payment tracking accuracy.</p>
+        </div>
+        <div class="card">
+            <h3>Month-End Close Acceleration</h3>
+            <p>Centralized data enables faster reconciliations and reduces time required for closing processes.</p>
+        </div>
+        <div class="card">
+            <h3>Improved Reporting</h3>
+            <p>Standardized data structure allows consistent financial reporting and easier audit support.</p>
+        </div>
+        <div class="card">
+            <h3>Data Governance</h3>
+            <p>Eliminates duplicate sources and ensures a single, reliable dataset for decision-making.</p>
+        </div>
+    </div>
+</section>
+
 <!-- TECH STACK -->
 <section class="fade-in">
     <h2 class="section-title">Technology Stack (Free Tools)</h2>
@@ -72,6 +110,20 @@
             <li><strong>Visualization:</strong> Excel / Google Sheets</li>
             <li><strong>Hosting:</strong> GitHub Pages</li>
         </ul>
+    </div>
+</section>
+
+  <!-- REAL DATA DASHBOARD -->
+<section class="fade-in">
+    <h2 class="section-title">Live Dashboard (Real Data)</h2>
+
+    <div class="card">
+        <label>Filter by Category:</label>
+        <select id="categoryFilter">
+            <option value="all">All</option>
+        </select>
+
+        <canvas id="financeChart"></canvas>
     </div>
 </section>
 
@@ -88,6 +140,38 @@
             <li>Load into a centralized relational database</li>
             <li>Query data for reporting and dashboards</li>
         </ul>
+    </div>
+</section>
+
+<!-- CLOUD EXPANSION -->
+<section class="fade-in">
+    <h2 class="section-title">Cloud Expansion (PostgreSQL + API)</h2>
+    <div class="card">
+        <h3>Step 1: Set Up Free Cloud Database (Supabase)</h3>
+        <p>Create a free account and project at Supabase.io (PostgreSQL backend).</p>
+
+        <h3>Step 2: Create Table</h3>
+<pre><code>create table transactions (
+ id serial primary key,
+ date text,
+ amount numeric,
+ category text
+);</code></pre>
+
+        <h3>Step 3: Upload Data</h3>
+        <p>Use Supabase table editor or CSV upload.</p>
+
+        <h3>Step 4: API Access</h3>
+<pre><code>fetch('https://YOUR_PROJECT.supabase.co/rest/v1/transactions', {
+ headers: {
+   apikey: 'YOUR_API_KEY'
+ }
+})
+.then(res => res.json())
+.then(data => console.log(data));</code></pre>
+
+        <h3>Step 5: Connect to Dashboard</h3>
+        <p>Replace local CSV with API call for real-time cloud data.</p>
     </div>
 </section>
 
@@ -158,22 +242,67 @@ result = pd.read_sql(query, conn)</code></pre>
     </div>
 </section>
 
-<!-- RESULTS -->
-<section class="fade-in">
-    <h2 class="section-title">Results & Impact</h2>
-    <div class="card">
-        <ul>
-            <li>Reduced manual data processing time</li>
-            <li>Improved reporting accuracy</li>
-            <li>Eliminated redundant datasets</li>
-            <li>Enabled faster decision-making</li>
-        </ul>
-    </div>
-</section>
 
 <footer>
     © 2026 Your Name | All Rights Reserved
 </footer>
+
+<script>
+let chart;
+
+async function loadData() {
+    const response = await fetch('data.csv');
+    const text = await response.text();
+
+    const rows = text.split('\n').slice(1);
+    const data = rows.map(r => {
+        const [date, amount, category] = r.split(',');
+        return { date, amount: +amount, category };
+    });
+
+    const categories = [...new Set(data.map(d => d.category))];
+    const filter = document.getElementById('categoryFilter');
+
+    categories.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c;
+        option.textContent = c;
+        filter.appendChild(option);
+    });
+
+    renderChart(data);
+    filter.addEventListener('change', () => {
+        const selected = filter.value;
+        const filtered = selected === 'all' ? data : data.filter(d => d.category === selected);
+        renderChart(filtered);
+    });
+}
+
+function renderChart(data) {
+    const grouped = {};
+
+    data.forEach(d => {
+        grouped[d.category] = (grouped[d.category] || 0) + d.amount;
+    });
+
+    const labels = Object.keys(grouped);
+    const values = Object.values(grouped);
+
+    if (chart) chart.destroy();
+
+    const ctx = document.getElementById('financeChart');
+
+    chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{ label: 'Amount', data: values }]
+        }
+    });
+}
+
+loadData();
+</script>
 
 <script src="script.js"></script>
 </body>
